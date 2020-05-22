@@ -1,0 +1,133 @@
+RogicCode
+004
+FUNCTION    CON34
+{
+    CONTACT_SW (INPUT_PORT 03) ON
+    {
+        SERVO
+            ON 1 17
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+        DELAY       3.0
+        SERVO
+            ON 1 199
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+    }
+    CONTACT_SW (INPUT_PORT 04) ON
+    {
+        SERVO
+            ON 1 17
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+        DELAY       3.0
+        SERVO
+            ON 1 199
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+            OFF
+    }
+}
+MAIN
+{
+    VAR    P = 0
+    WHILE
+    {
+        IF (INPUT_PORT 01)
+        {
+            VAR    P = 1
+        }
+        else
+        {
+            VAR    P = 2
+        }
+        WHILE    (P == 1)
+        {
+            PORT_ON     5 
+            CALL    CON34
+            DIRECTION
+                OFF
+                ON 2 F 15
+                OFF
+                OFF
+            IF (INPUT_PORT 02)
+            {
+                SERVO
+                    ON 1 199
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+            }
+            else
+            {
+                SERVO
+                    ON 1 17
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+            }
+            IR_SENSOR (INPUT_PORT 01) OFF
+            {
+                VAR    P = 0
+                PORT_OFF    3 4 
+                SERVO
+                    ON 1 199
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                    OFF
+                BREAK
+            }
+        }
+        WHILE    (P == 2)
+        {
+            PORT_OFF    5 
+            CALL    CON34
+            PORT_OFF    3 4 
+            SERVO
+                ON 1 199
+                OFF
+                OFF
+                OFF
+                OFF
+                OFF
+                OFF
+                OFF
+            IR_SENSOR (INPUT_PORT 01) ON
+            {
+                VAR    P = 0
+                BREAK
+            }
+        }
+    }
+}
